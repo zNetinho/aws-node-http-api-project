@@ -30,6 +30,18 @@ functions:
       - httpApi:
           path: /item
           method: post
+  fetchItem:
+    handler: src/fetchItems.handler
+    events:
+      - httpApi:
+          path: /item
+          method: get
+  updateItem:  
+    handler: src/updateItem.handler
+    events:
+      - httpApi:
+          path: /item/{id}
+          method: put
 
 resources:
   Resources:

@@ -1,28 +1,27 @@
 const AWS = require("aws-sdk");
 
-const fetchItems = async(event) => {
+const findItem = async (event) => {
 
     const dynamodb = new AWS.DynamoDB.DocumentClient();
-
-    let items;
+    const {id} = event.pathParameters
+    let item;
 
     try {
         // dependendo do tamanho do db a operação Scan pode ser muito custosa.
         const results = await dynamodb.scan({
-            TableName: "ItemTableNew"
+            TableName: "ItemTableNew",
+            Key: {id}
         }).promise();
-
-        items = results.Items
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 
     return {
         statusCode: 200,
-        body: JSON.stringify(items)
+        body: JSON.stringify(item)
     }
 }
 
 module.exports = {
-    handler: fetchItems
+    handler: findItem
 }
